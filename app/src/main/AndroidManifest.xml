@@ -7,7 +7,6 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
@@ -20,8 +19,7 @@
         </activity>
         <receiver android:name=".CaptureReceiver"  android:exported="true">
             <intent-filter>
-                <!-- NEED TO CHANGE LATER -->
-                <action android:name="com.example.myapp.MY_ACTION"/>
+                <action android:name="eli.alex.vuzixtakephoto.SEND_IMAGE"/>
             </intent-filter>
         </receiver>
     </application>

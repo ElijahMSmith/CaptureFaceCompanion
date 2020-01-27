@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 
 import androidx.core.app.NotificationCompat;
 
@@ -17,13 +18,11 @@ public class CaptureReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (isOrderedBroadcast() && Connectivity.get(context).verify(intent)) {
             setResultCode(RESULT_OK);
-            //setResultData("some result data");
+            setResultData("RECEIVED");
 
-            //Bundle extras = new Bundle();
-            //extras.putString("key", "value");
-            //setResultExtras(extras);
-
-            //FOR NOW JUST SEND A NOTIFICATION THAT IT WORKED
+            /*Bundle extras = new Bundle();
+            extras.putString("key", "value");
+            setResultExtras(extras);*/
 
             sendNotification(context, "CaptureFaceCompanion", "Received broadcast from Vuzix!");
         }
