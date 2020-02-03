@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">Capture Face Companion</string>
+    <string name="app_name">CaptureFace Companion</string>
+    <string name="holds_last_received_image">Holds last received image</string>
+    <string name="shows_if_image_is_not_available">Shows if image is not available</string>
+    <string name="nothing_to_see_yet">Nothing to see yet!</string>
 </resources>

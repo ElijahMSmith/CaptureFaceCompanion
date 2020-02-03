@@ -1,7 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"/>
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/lastImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/holds_last_received_image"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:visibility="invisible"
+        app:srcCompat="@android:color/transparent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/shows_if_image_is_not_available"
+        android:text="@string/nothing_to_see_yet"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:visibility="visible" />
+</FrameLayout>
