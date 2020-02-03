@@ -38,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver commandReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("Debug", "Received communication from broadcast receiver!");
-            Toast.makeText(getApplicationContext(), "Received intent in main!", Toast.LENGTH_SHORT).show();
+            Log.d("Debug", "Received intent in main!");
             updateImageView();
         }
     };

@@ -1,0 +1,5 @@
+Try to scale up image after it's taken
+
+Figure out why image goes away if it's received then the app closes and reopens
+
+Figure out why result extras not sending back

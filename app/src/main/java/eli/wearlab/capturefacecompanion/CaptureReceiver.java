@@ -1,16 +1,25 @@
 package eli.wearlab.capturefacecompanion;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.vuzix.connectivity.sdk.Connectivity;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -19,12 +28,15 @@ public class CaptureReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (isOrderedBroadcast() && Connectivity.get(context).verify(intent)) {
-            Log.d("Debug", "Transmission received");
+            Log.d("Debug", "Transmission received in CaptureReceiver");
             setResultCode(RESULT_OK);
             setResultData("RECEIVED");
 
             sendNotification(context, "CaptureFaceCompanion", "Received broadcast from Vuzix!");
             byte[] imageData = intent.getByteArrayExtra("data");
+            if(imageData == null)
+                return;
+
             MainActivity.updateImageData(imageData);
 
             if(MainActivity.isRunning){
@@ -34,16 +46,15 @@ public class CaptureReceiver extends BroadcastReceiver {
                 context.sendBroadcast(i);
             }
 
+            intent.putExtra("toast", "WE'VE DONE IT TAKE 2");
+
             Bundle extras = new Bundle();
             extras.putString("toast", "WE'VE DONE IT");
             setResultExtras(extras);
 
-            //NEED TO WORK ON HOW THIS SHOULD GET SET UP TO BEST FUNCTION AS I WANT.
-
-
-            /*File photoFile;
+            File photoFile;
             try {
-                photoFile = createImageFile();
+                photoFile = createImageFile(context);
             } catch (IOException ex) {
                 // Error occurred while creating the File
                 Log.e("Debug", "Couldn't create file!");
@@ -53,12 +64,13 @@ public class CaptureReceiver extends BroadcastReceiver {
             FileOutputStream fo;
             try {
                 fo = new FileOutputStream(photoFile);
-                fo.write(byteData);
+                fo.write(imageData);
                 fo.close();
             } catch (Exception e) {
                 Log.e("Debug", "FILE IO EXCEPTION");
                 return;
-            }*/
+            }
+            galleryAddPic(photoFile, context);
         }
     }
 
@@ -70,7 +82,7 @@ public class CaptureReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MainActivity.CHANNELID)
                 .setContentTitle(name)
                 .setContentText(description)
-                .setContentText(description)
+                .setSmallIcon(R.drawable.ic_stat_face)
                 .setLights(Color.GREEN, 500, 2000)
                 .setAutoCancel(true)
                 .setVibrate(vibrate)
@@ -80,12 +92,12 @@ public class CaptureReceiver extends BroadcastReceiver {
         notificationManager.notify(1, builder.build());
     }
 
-    /*@SuppressLint("SimpleDateFormat")
-    private File createImageFile() throws IOException {
+    @SuppressLint("SimpleDateFormat")
+    private File createImageFile(Context context) throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
 
         //Save a file: path for use with ACTION_VIEW intents
@@ -94,5 +106,12 @@ public class CaptureReceiver extends BroadcastReceiver {
                 ".jpg",
                 storageDir
         );
-    }*/
+    }
+
+    private void galleryAddPic(File photoFile, Context context) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri contentUri = Uri.fromFile(photoFile);
+        mediaScanIntent.setData(contentUri);
+        context.sendBroadcast(mediaScanIntent);
+    }
 }
