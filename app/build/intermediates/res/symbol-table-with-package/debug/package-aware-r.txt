@@ -787,6 +787,7 @@ id multiply
 id never
 id none
 id normal
+id nothingText
 id notification_background
 id notification_main_column
 id notification_main_column_container
@@ -845,7 +846,6 @@ id text
 id text2
 id textSpacerNoButtons
 id textSpacerNoTitle
-id textView
 id time
 id title
 id titleDividerNoCustom

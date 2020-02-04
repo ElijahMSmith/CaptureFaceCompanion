@@ -124,8 +124,10 @@ public class MainActivity extends AppCompatActivity {
             return;
         ImageView lastImage = findViewById(R.id.lastImage);
         Bitmap bitmap = BitmapFactory.decodeByteArray(lastData, 0, lastData.length);
+        bitmap = Bitmap.createScaledBitmap(bitmap, (bitmap.getWidth()*6), (bitmap.getHeight()*6), true);
         lastImage.setImageBitmap(bitmap);
         lastImage.setVisibility(View.VISIBLE);
+        findViewById(R.id.nothingText).setVisibility(View.INVISIBLE);
     }
 
 }

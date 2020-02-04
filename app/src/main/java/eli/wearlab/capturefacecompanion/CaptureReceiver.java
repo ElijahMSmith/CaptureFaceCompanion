@@ -1,6 +1,7 @@
 package eli.wearlab.capturefacecompanion;
 
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +31,6 @@ public class CaptureReceiver extends BroadcastReceiver {
         if (isOrderedBroadcast() && Connectivity.get(context).verify(intent)) {
             Log.d("Debug", "Transmission received in CaptureReceiver");
             setResultCode(RESULT_OK);
-            setResultData("RECEIVED");
 
             sendNotification(context, "CaptureFaceCompanion", "Received broadcast from Vuzix!");
             byte[] imageData = intent.getByteArrayExtra("data");
@@ -45,8 +45,6 @@ public class CaptureReceiver extends BroadcastReceiver {
                 i.setAction(MainActivity.CAPTURE_FACE_FILTER);
                 context.sendBroadcast(i);
             }
-
-            intent.putExtra("toast", "WE'VE DONE IT TAKE 2");
 
             Bundle extras = new Bundle();
             extras.putString("toast", "WE'VE DONE IT");
@@ -88,6 +86,15 @@ public class CaptureReceiver extends BroadcastReceiver {
                 .setVibrate(vibrate)
                 .setContentTitle(name)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pi = PendingIntent.getActivity(context,4986274,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pi); //Lets us click the notification and enter tha pp
+
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(1, builder.build());
     }

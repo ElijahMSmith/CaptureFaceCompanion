@@ -11,13 +11,14 @@
         android:id="@+id/lastImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:contentDescription="@string/holds_last_received_image"
         android:foregroundGravity="center_vertical|center_horizontal"
         android:visibility="invisible"
         app:srcCompat="@android:color/transparent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/nothingText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/shows_if_image_is_not_available"
